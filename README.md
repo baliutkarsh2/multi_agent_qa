@@ -231,7 +231,7 @@ This project embodies several key principles:
 
 #### 1. **Clone the Repository**
 ```bash
-git clone https://github.com/yourusername/multi_agent_qa.git
+git clone https://github.com/baliutkarsh2/multi_agent_qa.git
 cd multi_agent_qa
 ```
 
