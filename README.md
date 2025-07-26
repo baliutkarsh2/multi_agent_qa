@@ -7,7 +7,7 @@
 
 > **Advanced Multi-Agent System for Automated Android UI Testing and Quality Assurance**
 
-A sophisticated, production-ready framework that leverages Large Language Models (LLMs) to orchestrate multiple AI agents for automated Android application testing, UI interaction, and quality assurance. This system implements a hierarchical planning architecture with specialized agents for planning, execution, verification, and supervision.
+A sophisticated framework that leverages Large Language Models (LLMs) to orchestrate multiple AI agents for automated Android application testing, UI interaction, and quality assurance. This system implements a hierarchical planning architecture with specialized agents for planning, execution, verification, and supervision.
 
 ## 📋 Table of Contents
 
