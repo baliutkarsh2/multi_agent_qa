@@ -1,0 +1,8 @@
+# Default configuration used across modules.
+agent:
+  model: "gemini-2.5-flash-exp"
+  temperature: 0.2
+android:
+  emulator_serial: null
+log:
+  level: "INFO" 
