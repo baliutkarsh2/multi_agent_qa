@@ -18,6 +18,9 @@ class LLMPlannerAgent:
     def __init__(self):
         self.llm = LLMClient()
         self.memory = EpisodicMemory()
+        self.max_steps = 20  # Maximum steps per episode
+        self.toggle_episodes = set()  # Track episodes that have performed a toggle
+        self.toggle_executed = False  # Track if toggle has been executed in current episode
         subscribe("exec-report", self.on_exec_report)
 
     def on_exec_report(self, msg: Message):
@@ -35,6 +38,12 @@ class LLMPlannerAgent:
 
         user_goal = history[0].get("user_goal", "No goal found in history.")
         
+        # Check if we've reached the maximum number of steps
+        if len(history) >= self.max_steps:
+            log.info(f"Maximum steps ({self.max_steps}) reached for episode {episode_id}. Ending episode.")
+            publish(Message("LLM-PLANNER", "episode_done", {"reason": "Maximum steps reached."}))
+            return
+        
         self.act(user_goal, ui_state, EpisodeContext(id=episode_id, user_goal=user_goal))
 
     def act(self, user_goal: str, ui_state: UIState, episode: EpisodeContext):
@@ -42,8 +51,10 @@ class LLMPlannerAgent:
         
         if not history:
             history.append({"user_goal": user_goal})
+            # Reset toggle execution flag for new episode
+            self.toggle_executed = False
             
-        log.info(f"Planning next action for goal: {user_goal}")
+        log.info(f"Planning next action for goal: {user_goal} (step {len(history)})")
         
         action = self.llm.request_next_action(user_goal, ui_state.xml, history)
         
@@ -52,7 +63,108 @@ class LLMPlannerAgent:
             publish(Message("LLM-PLANNER", "episode_done", {"reason": "No further actions from LLM."}))
             return
             
+        # Check if this is a toggle action and we should end the episode
+        if self._is_toggle_action(action, user_goal):
+            if self.toggle_executed:
+                log.info("Toggle already executed in this episode, ending immediately.")
+                publish(Message("LLM-PLANNER", "episode_done", {"reason": "Toggle already executed - stopping."}))
+                return
+                
+            log.info("Toggle action detected. Executing toggle ONCE and then STOPPING.")
+            # Mark toggle as executed
+            self.toggle_executed = True
+            # Execute the toggle action first
+            history.append(action)
+            self.memory.store(episode.id, history, tags=["history"])
+            publish(Message("LLM-PLANNER", "plan", {"step": action, "episode_id": episode.id}))
+            # End the episode immediately after planning the toggle action
+            publish(Message("LLM-PLANNER", "episode_done", {"reason": "Toggle action executed. Goal Reached."}))
+            return
+            
+        # Check if the action indicates completion
+        if self._is_completion_action(action, user_goal):
+            log.info("Completion action detected. Ending episode.")
+            publish(Message("LLM-PLANNER", "episode_done", {"reason": "Goal completed."}))
+            return
+            
         history.append(action)
         self.memory.store(episode.id, history, tags=["history"])
         
-        publish(Message("LLM-PLANNER", "plan", {"step": action, "episode_id": episode.id})) 
+        publish(Message("LLM-PLANNER", "plan", {"step": action, "episode_id": episode.id}))
+
+    def _is_completion_action(self, action: Dict[str, Any], goal: str) -> bool:
+        """Check if the action indicates the goal has been completed."""
+        # Check for verify actions that might indicate completion
+        if action.get("action") == "verify":
+            rationale = action.get("rationale", "").lower()
+            goal_lower = goal.lower()
+            
+            # Check if the verification is for the final goal
+            completion_keywords = ["complete", "finished", "done", "achieved", "success"]
+            if any(keyword in rationale for keyword in completion_keywords):
+                return True
+                
+            # Check if the verification is checking for the goal itself
+            if any(word in rationale for word in goal_lower.split()):
+                return True
+        
+        # Check for toggle actions (like Wi-Fi switches) - end episode after first toggle
+        if action.get("action") == "tap":
+            rationale = action.get("rationale", "").lower()
+            
+            # Check if this is a toggle action (switch, checkbox, etc.)
+            toggle_indicators = ["switch", "toggle", "enable", "disable", "turn on", "turn off"]
+            navigation_indicators = ["access", "navigate", "open", "go to", "tap on"]
+            
+            # Only consider it a completion if it's actually a toggle action, not navigation
+            has_toggle_keywords = any(indicator in rationale for indicator in toggle_indicators)
+            has_navigation_keywords = any(indicator in rationale for indicator in navigation_indicators)
+            
+            if has_toggle_keywords and not has_navigation_keywords:
+                # Check if the goal is related to toggling something
+                goal_lower = goal.lower()
+                if any(word in goal_lower for word in ["wifi", "wi-fi", "enable", "disable", "toggle"]):
+                    return True
+        
+        return False 
+
+    def _is_toggle_action(self, action: Dict[str, Any], goal: str) -> bool:
+        """Check if this is a toggle action that should end the episode."""
+        if action.get("action") == "tap":
+            rationale = action.get("rationale", "").lower()
+            resource_id = action.get("resource_id", "").lower()
+            text = action.get("text", "").lower()
+            
+            # Check if this is actually a toggle/switch action (not navigation)
+            toggle_indicators = ["switch", "toggle", "turn on", "turn off"]
+            navigation_indicators = ["access", "navigate", "open", "go to", "tap on"]
+            
+            # Only consider it a toggle if it contains toggle keywords AND doesn't contain navigation keywords
+            has_toggle_keywords = any(indicator in rationale for indicator in toggle_indicators)
+            has_navigation_keywords = any(indicator in rationale for indicator in navigation_indicators)
+            
+            # Also check if the resource_id or text suggests it's a switch/toggle
+            is_switch_element = "switch" in resource_id or "switch" in text or "toggle" in resource_id or "toggle" in text
+            
+            # Check if this is clicking on Wi-Fi text (which can toggle the switch)
+            is_wifi_text = "wi-fi" in text.lower() or "wifi" in text.lower()
+            
+            if has_toggle_keywords and not has_navigation_keywords:
+                # Check if the goal is related to toggling something
+                goal_lower = goal.lower()
+                if any(word in goal_lower for word in ["wifi", "wi-fi", "enable", "disable", "toggle"]):
+                    return True
+            
+            # If it's a switch element, consider it a toggle regardless of rationale
+            if is_switch_element:
+                goal_lower = goal.lower()
+                if any(word in goal_lower for word in ["wifi", "wi-fi", "enable", "disable", "toggle"]):
+                    return True
+            
+            # If it's clicking on Wi-Fi text and the goal is about Wi-Fi, consider it a toggle
+            if is_wifi_text:
+                goal_lower = goal.lower()
+                if any(word in goal_lower for word in ["wifi", "wi-fi", "enable", "disable", "toggle"]):
+                    return True
+        
+        return False 

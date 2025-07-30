@@ -17,6 +17,15 @@ class TapAction(TypedDict, total=False):
     order: Optional[int]
     rationale: str
 
+class TypeAction(TypedDict, total=False):
+    step_id: str
+    action: Literal["type"]
+    text: str
+    resource_id: Optional[str]
+    input_text: Optional[str]
+    order: Optional[int]
+    rationale: str
+
 class VerifyAction(TypedDict, total=False):
     step_id: str
     action: Literal["verify"]
@@ -44,4 +53,4 @@ class PressKeyAction(TypedDict):
     key: Literal["home", "back", "recents", "enter"]
     rationale: str
 
-NextAction = Union[LaunchAppAction, TapAction, VerifyAction, ScrollAction, WaitAction, PressKeyAction] 
+NextAction = Union[LaunchAppAction, TapAction, TypeAction, VerifyAction, ScrollAction, WaitAction, PressKeyAction] 

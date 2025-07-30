@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from typing import List, Dict, Any
 from pydantic import BaseModel
-from .metrics import success_rate, avg_duration
+from .metrics import success_rate, avg_duration, verification_success_rate
 
 
 class EpisodeScore(BaseModel):
@@ -14,6 +14,7 @@ class EpisodeScore(BaseModel):
     avg_duration: float
     verified_steps: int
     total_steps: int
+    verification_success_rate: float
 
 
 class EpisodeEvaluator:
@@ -23,4 +24,5 @@ class EpisodeEvaluator:
             avg_duration=avg_duration(exec_reports),
             verified_steps=len(verify_reports),
             total_steps=len(exec_reports),
+            verification_success_rate=verification_success_rate(verify_reports)
         ) 
