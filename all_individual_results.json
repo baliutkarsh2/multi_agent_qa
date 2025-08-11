@@ -1,0 +1,380 @@
+[
+  {
+    "image_name": "demo1.png",
+    "image_path": "test_aitw_videos\\demo1.png",
+    "task_description": "\"Search for 'the capital of Mexico' on Google\"",
+    "analysis_timestamp": "2025-08-11T18:34:11.034098",
+    "analysis_status": "success",
+    "execution_status": "success",
+    "execution_timestamp": "2025-08-11T18:34:46.089899",
+    "episode_id": "task_demo1",
+    "evaluation": {
+      "accuracy_score": 0.76,
+      "robustness_score": 0.8999999999999999,
+      "generalization_score": 0.6692800000000001,
+      "action_similarity": 1.0,
+      "task_completion_rate": 1.0,
+      "average_duration": 45.2,
+      "planned_steps": [
+        {
+          "step_id": 1,
+          "action": "tap",
+          "resource_id": "com.google.android.apps.nexuslauncher:id/search_container_hotseat",
+          "text": "Google search",
+          "rationale": "To initiate a search for \"search for 'the capital of mexico' on google\".",
+          "timestamp": "2025-08-11T18:34:46.082245"
+        },
+        {
+          "step_id": 2,
+          "action": "tap",
+          "resource_id": "com.google.android.apps.nexuslauncher:id/input",
+          "text": "Search web and more",
+          "rationale": "To access the input field for typing the search query \"search for 'the capital of mexico' on google\".",
+          "timestamp": "2025-08-11T18:34:46.082245"
+        },
+        {
+          "step_id": 3,
+          "action": "type",
+          "resource_id": "com.google.android.apps.nexuslauncher:id/input",
+          "text": "search for 'the capital of mexico' on google",
+          "input_text": "search for 'the capital of mexico' on google",
+          "rationale": "To enter the search query \"search for 'the capital of mexico' on google\" into the input field.",
+          "timestamp": "2025-08-11T18:34:46.082245"
+        },
+        {
+          "step_id": 4,
+          "action": "press_key",
+          "key": "enter",
+          "rationale": "To submit the search query \"search for 'the capital of mexico' on google\" on Google.",
+          "timestamp": "2025-08-11T18:34:46.082245"
+        },
+        {
+          "step_id": 5,
+          "action": "completion",
+          "text": "Task completed",
+          "rationale": "Search for \"search for 'the capital of mexico' on google\" completed successfully.",
+          "timestamp": "2025-08-11T18:34:46.082245"
+        }
+      ],
+      "executed_steps": [
+        {
+          "step_id": 1,
+          "action": "tap",
+          "resource_id": "com.google.android.apps.nexuslauncher:id/search_container_hotseat",
+          "text": "Google search",
+          "rationale": "Tapping the Google search bar to initiate a search for \"search for 'the capital of mexico' on google\".",
+          "timestamp": "2025-08-11T18:34:46.082245"
+        },
+        {
+          "step_id": 2,
+          "action": "tap",
+          "resource_id": "com.google.android.apps.nexuslauncher:id/input",
+          "text": "Search web and more",
+          "rationale": "Tapping the input field to enter the search term \"search for 'the capital of mexico' on google\".",
+          "timestamp": "2025-08-11T18:34:46.082245"
+        },
+        {
+          "step_id": 3,
+          "action": "type",
+          "resource_id": "com.google.android.apps.nexuslauncher:id/input",
+          "text": "search for 'the capital of mexico' on google",
+          "input_text": "search for 'the capital of mexico' on google",
+          "rationale": "Typing the search term \"search for 'the capital of mexico' on google\" into the search input field.",
+          "timestamp": "2025-08-11T18:34:46.082245"
+        },
+        {
+          "step_id": 4,
+          "action": "press_key",
+          "key": "enter",
+          "rationale": "Submitting the search for \"search for 'the capital of mexico' on google\".",
+          "timestamp": "2025-08-11T18:34:46.082245"
+        },
+        {
+          "step_id": 5,
+          "action": "completion",
+          "text": "Task completed",
+          "rationale": "Search for \"search for 'the capital of mexico' on google\" completed successfully.",
+          "timestamp": "2025-08-11T18:34:46.082245"
+        }
+      ],
+      "step_accuracy_scores": [
+        0.8,
+        0.8,
+        1.0,
+        0.4,
+        0.8
+      ],
+      "overall_accuracy": 0.76,
+      "evaluation_timestamp": "2025-08-11T18:34:46.089899"
+    },
+    "planned_steps": [
+      {
+        "step_id": 1,
+        "action": "tap",
+        "resource_id": "com.google.android.apps.nexuslauncher:id/search_container_hotseat",
+        "text": "Google search",
+        "rationale": "To initiate a search for \"search for 'the capital of mexico' on google\".",
+        "timestamp": "2025-08-11T18:34:46.082245"
+      },
+      {
+        "step_id": 2,
+        "action": "tap",
+        "resource_id": "com.google.android.apps.nexuslauncher:id/input",
+        "text": "Search web and more",
+        "rationale": "To access the input field for typing the search query \"search for 'the capital of mexico' on google\".",
+        "timestamp": "2025-08-11T18:34:46.082245"
+      },
+      {
+        "step_id": 3,
+        "action": "type",
+        "resource_id": "com.google.android.apps.nexuslauncher:id/input",
+        "text": "search for 'the capital of mexico' on google",
+        "input_text": "search for 'the capital of mexico' on google",
+        "rationale": "To enter the search query \"search for 'the capital of mexico' on google\" into the input field.",
+        "timestamp": "2025-08-11T18:34:46.082245"
+      },
+      {
+        "step_id": 4,
+        "action": "press_key",
+        "key": "enter",
+        "rationale": "To submit the search query \"search for 'the capital of mexico' on google\" on Google.",
+        "timestamp": "2025-08-11T18:34:46.082245"
+      },
+      {
+        "step_id": 5,
+        "action": "completion",
+        "text": "Task completed",
+        "rationale": "Search for \"search for 'the capital of mexico' on google\" completed successfully.",
+        "timestamp": "2025-08-11T18:34:46.082245"
+      }
+    ]
+  },
+  {
+    "image_name": "demo2.png",
+    "image_path": "test_aitw_videos\\demo2.png",
+    "task_description": "\"Search for 'US dollar exchange rate against the Euro' on Google.\"",
+    "analysis_timestamp": "2025-08-11T18:34:52.996819",
+    "analysis_status": "success",
+    "execution_status": "success",
+    "execution_timestamp": "2025-08-11T18:35:23.429286",
+    "episode_id": "task_demo2",
+    "evaluation": {
+      "accuracy_score": 0.76,
+      "robustness_score": 0.8999999999999999,
+      "generalization_score": 0.6692800000000001,
+      "action_similarity": 1.0,
+      "task_completion_rate": 1.0,
+      "average_duration": 45.2,
+      "planned_steps": [
+        {
+          "step_id": 1,
+          "action": "tap",
+          "resource_id": "com.google.android.apps.nexuslauncher:id/search_container_hotseat",
+          "text": "Google search",
+          "rationale": "To initiate a search for \"search for 'us dollar exchange rate against the euro' on google.\".",
+          "timestamp": "2025-08-11T18:35:23.421207"
+        },
+        {
+          "step_id": 2,
+          "action": "tap",
+          "resource_id": "com.google.android.apps.nexuslauncher:id/input",
+          "text": "Search web and more",
+          "rationale": "To access the input field for typing the search query \"search for 'us dollar exchange rate against the euro' on google.\".",
+          "timestamp": "2025-08-11T18:35:23.421207"
+        },
+        {
+          "step_id": 3,
+          "action": "type",
+          "resource_id": "com.google.android.apps.nexuslauncher:id/input",
+          "text": "search for 'us dollar exchange rate against the euro' on google.",
+          "input_text": "search for 'us dollar exchange rate against the euro' on google.",
+          "rationale": "To enter the search query \"search for 'us dollar exchange rate against the euro' on google.\" into the input field.",
+          "timestamp": "2025-08-11T18:35:23.421207"
+        },
+        {
+          "step_id": 4,
+          "action": "press_key",
+          "key": "enter",
+          "rationale": "To submit the search query \"search for 'us dollar exchange rate against the euro' on google.\" on Google.",
+          "timestamp": "2025-08-11T18:35:23.421207"
+        },
+        {
+          "step_id": 5,
+          "action": "completion",
+          "text": "Task completed",
+          "rationale": "Search for \"search for 'us dollar exchange rate against the euro' on google.\" completed successfully.",
+          "timestamp": "2025-08-11T18:35:23.421207"
+        }
+      ],
+      "executed_steps": [
+        {
+          "step_id": 1,
+          "action": "tap",
+          "resource_id": "com.google.android.apps.nexuslauncher:id/search_container_hotseat",
+          "text": "Google search",
+          "rationale": "Tapping the Google search bar to initiate a search for \"search for 'us dollar exchange rate against the euro' on google.\".",
+          "timestamp": "2025-08-11T18:35:23.421207"
+        },
+        {
+          "step_id": 2,
+          "action": "tap",
+          "resource_id": "com.google.android.apps.nexuslauncher:id/input",
+          "text": "Search web and more",
+          "rationale": "Tapping the input field to enter the search term \"search for 'us dollar exchange rate against the euro' on google.\".",
+          "timestamp": "2025-08-11T18:35:23.421207"
+        },
+        {
+          "step_id": 3,
+          "action": "type",
+          "resource_id": "com.google.android.apps.nexuslauncher:id/input",
+          "text": "search for 'us dollar exchange rate against the euro' on google.",
+          "input_text": "search for 'us dollar exchange rate against the euro' on google.",
+          "rationale": "Typing the search term \"search for 'us dollar exchange rate against the euro' on google.\" into the search input field.",
+          "timestamp": "2025-08-11T18:35:23.421207"
+        },
+        {
+          "step_id": 4,
+          "action": "press_key",
+          "key": "enter",
+          "rationale": "Submitting the search for \"search for 'us dollar exchange rate against the euro' on google.\".",
+          "timestamp": "2025-08-11T18:35:23.421207"
+        },
+        {
+          "step_id": 5,
+          "action": "completion",
+          "text": "Task completed",
+          "rationale": "Search for \"search for 'us dollar exchange rate against the euro' on google.\" completed successfully.",
+          "timestamp": "2025-08-11T18:35:23.421207"
+        }
+      ],
+      "step_accuracy_scores": [
+        0.8,
+        0.8,
+        1.0,
+        0.4,
+        0.8
+      ],
+      "overall_accuracy": 0.76,
+      "evaluation_timestamp": "2025-08-11T18:35:23.423771"
+    },
+    "planned_steps": [
+      {
+        "step_id": 1,
+        "action": "tap",
+        "resource_id": "com.google.android.apps.nexuslauncher:id/search_container_hotseat",
+        "text": "Google search",
+        "rationale": "To initiate a search for \"search for 'us dollar exchange rate against the euro' on google.\".",
+        "timestamp": "2025-08-11T18:35:23.421207"
+      },
+      {
+        "step_id": 2,
+        "action": "tap",
+        "resource_id": "com.google.android.apps.nexuslauncher:id/input",
+        "text": "Search web and more",
+        "rationale": "To access the input field for typing the search query \"search for 'us dollar exchange rate against the euro' on google.\".",
+        "timestamp": "2025-08-11T18:35:23.421207"
+      },
+      {
+        "step_id": 3,
+        "action": "type",
+        "resource_id": "com.google.android.apps.nexuslauncher:id/input",
+        "text": "search for 'us dollar exchange rate against the euro' on google.",
+        "input_text": "search for 'us dollar exchange rate against the euro' on google.",
+        "rationale": "To enter the search query \"search for 'us dollar exchange rate against the euro' on google.\" into the input field.",
+        "timestamp": "2025-08-11T18:35:23.421207"
+      },
+      {
+        "step_id": 4,
+        "action": "press_key",
+        "key": "enter",
+        "rationale": "To submit the search query \"search for 'us dollar exchange rate against the euro' on google.\" on Google.",
+        "timestamp": "2025-08-11T18:35:23.421207"
+      },
+      {
+        "step_id": 5,
+        "action": "completion",
+        "text": "Task completed",
+        "rationale": "Search for \"search for 'us dollar exchange rate against the euro' on google.\" completed successfully.",
+        "timestamp": "2025-08-11T18:35:23.421207"
+      }
+    ]
+  },
+  {
+    "image_name": "demo3.png",
+    "image_path": "test_aitw_videos\\demo3.png",
+    "task_description": "\"Open the calendar and show this week's events.\"",
+    "analysis_timestamp": "2025-08-11T18:35:29.255475",
+    "analysis_status": "success",
+    "execution_status": "success",
+    "execution_timestamp": "2025-08-11T18:36:00.146694",
+    "episode_id": "task_demo3",
+    "evaluation": {
+      "accuracy_score": 0.8,
+      "robustness_score": 0.8999999999999999,
+      "generalization_score": 0.3,
+      "action_similarity": 1.0,
+      "task_completion_rate": 1.0,
+      "average_duration": 45.2,
+      "planned_steps": [
+        {
+          "step_id": 1,
+          "action": "tap",
+          "resource_id": "com.google.android.apps.nexuslauncher:id/apps_button",
+          "text": "Apps",
+          "rationale": "To access the apps drawer to find the calendar.",
+          "timestamp": "2025-08-11T18:36:00.139399"
+        },
+        {
+          "step_id": 2,
+          "action": "tap",
+          "resource_id": "com.the calendar.app:id/launcher_icon",
+          "text": "the calendar",
+          "rationale": "To launch the the calendar application.",
+          "timestamp": "2025-08-11T18:36:00.139399"
+        }
+      ],
+      "executed_steps": [
+        {
+          "step_id": 1,
+          "action": "tap",
+          "resource_id": "com.google.android.apps.nexuslauncher:id/apps_button",
+          "text": "Apps",
+          "rationale": "Tapping Apps to access the apps drawer.",
+          "timestamp": "2025-08-11T18:36:00.139399"
+        },
+        {
+          "step_id": 2,
+          "action": "tap",
+          "resource_id": "com.the calendar.app:id/launcher_icon",
+          "text": "the calendar",
+          "rationale": "Tapping the calendar icon to launch the application.",
+          "timestamp": "2025-08-11T18:36:00.139399"
+        }
+      ],
+      "step_accuracy_scores": [
+        0.8,
+        0.8
+      ],
+      "overall_accuracy": 0.8,
+      "evaluation_timestamp": "2025-08-11T18:36:00.142655"
+    },
+    "planned_steps": [
+      {
+        "step_id": 1,
+        "action": "tap",
+        "resource_id": "com.google.android.apps.nexuslauncher:id/apps_button",
+        "text": "Apps",
+        "rationale": "To access the apps drawer to find the calendar.",
+        "timestamp": "2025-08-11T18:36:00.139399"
+      },
+      {
+        "step_id": 2,
+        "action": "tap",
+        "resource_id": "com.the calendar.app:id/launcher_icon",
+        "text": "the calendar",
+        "rationale": "To launch the the calendar application.",
+        "timestamp": "2025-08-11T18:36:00.139399"
+      }
+    ]
+  }
+]
