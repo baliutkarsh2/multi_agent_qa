@@ -1,0 +1,67 @@
+[
+  {
+    "image_name": "image.png",
+    "image_path": "test_aitw_videos\\image.png",
+    "task_description": "\"Search for 'the capital of Mexico' on Google\"",
+    "analysis_timestamp": "2025-08-11T16:21:01.878952",
+    "analysis_status": "success",
+    "execution_status": "success",
+    "execution_timestamp": "2025-08-11T16:22:12.440765",
+    "episode_id": "image_task_image",
+    "evaluation": {
+      "accuracy_score": 0.295,
+      "robustness_score": 0.8999999999999999,
+      "generalization_score": 0.8,
+      "action_similarity": 0.46,
+      "task_completion_rate": 1.0,
+      "average_duration": 45.2,
+      "agent_actions": [
+        "tap:search_container",
+        "tap:typeahead_input",
+        "type:capital of Mexico",
+        "press_key:unknown",
+        "wait:Search results"
+      ],
+      "ground_truth_actions": [
+        "tap:search_container_hotseat",
+        "tap:typeahead_input",
+        "type:capital of Mexico",
+        "press_key:enter",
+        "wait:search_results"
+      ],
+      "evaluation_timestamp": "2025-08-11T16:22:12.439753"
+    }
+  },
+  {
+    "image_name": "image3.png",
+    "image_path": "test_aitw_videos\\image3.png",
+    "task_description": "Search for \"US dollar exchange rate against the Euro\" on Google.",
+    "analysis_timestamp": "2025-08-11T16:22:19.473836",
+    "analysis_status": "success",
+    "execution_status": "success",
+    "execution_timestamp": "2025-08-11T16:22:55.688470",
+    "episode_id": "image_task_image3",
+    "evaluation": {
+      "accuracy_score": 0.0,
+      "robustness_score": 0.8999999999999999,
+      "generalization_score": 0.8,
+      "action_similarity": 0.15000000000000002,
+      "task_completion_rate": 1.0,
+      "average_duration": 45.2,
+      "agent_actions": [
+        "tap:search_container",
+        "tap:typeahead_input",
+        "type:capital of Mexico",
+        "press_key:unknown",
+        "wait:Search results"
+      ],
+      "ground_truth_actions": [
+        "tap:relevant_app",
+        "wait:app_launch",
+        "tap:target_element",
+        "wait:action_complete"
+      ],
+      "evaluation_timestamp": "2025-08-11T16:22:55.687213"
+    }
+  }
+]

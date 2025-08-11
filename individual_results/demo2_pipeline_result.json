@@ -1,0 +1,150 @@
+{
+  "image_name": "demo2.png",
+  "image_path": "test_aitw_videos\\demo2.png",
+  "task_description": "Search for \"US dollar exchange rate against the Euro\" on Google.",
+  "analysis_timestamp": "2025-08-11T17:45:38.851746",
+  "analysis_status": "success",
+  "execution_status": "success",
+  "execution_timestamp": "2025-08-11T17:47:04.236302",
+  "episode_id": "image_task_demo2",
+  "evaluation": {
+    "accuracy_score": 0.76,
+    "robustness_score": 0.8999999999999999,
+    "generalization_score": 0.6692800000000001,
+    "action_similarity": 1.0,
+    "task_completion_rate": 1.0,
+    "average_duration": 45.2,
+    "planned_steps": [
+      {
+        "step_id": 1,
+        "action": "tap",
+        "resource_id": "com.google.android.apps.nexuslauncher:id/search_container_hotseat",
+        "text": "Google search",
+        "rationale": "To initiate a search for the capital of Mexico.",
+        "timestamp": "2025-08-11T17:47:04.232747"
+      },
+      {
+        "step_id": 2,
+        "action": "tap",
+        "resource_id": "com.google.android.apps.nexuslauncher:id/input",
+        "text": "Search web and more",
+        "rationale": "To access the input field for typing the search query.",
+        "timestamp": "2025-08-11T17:47:04.232747"
+      },
+      {
+        "step_id": 3,
+        "action": "type",
+        "resource_id": "com.google.android.apps.nexuslauncher:id/input",
+        "text": "the capital of Mexico",
+        "input_text": "the capital of Mexico",
+        "rationale": "To enter the search query 'the capital of Mexico' into the input field.",
+        "timestamp": "2025-08-11T17:47:04.232747"
+      },
+      {
+        "step_id": 4,
+        "action": "press_key",
+        "key": "enter",
+        "rationale": "To submit the search query for 'the capital of Mexico' on Google.",
+        "timestamp": "2025-08-11T17:47:04.232747"
+      },
+      {
+        "step_id": 5,
+        "action": "completion",
+        "text": "Task completed",
+        "rationale": "Search for the capital of Mexico completed successfully.",
+        "timestamp": "2025-08-11T17:47:04.232747"
+      }
+    ],
+    "executed_steps": [
+      {
+        "step_id": 1,
+        "action": "tap",
+        "resource_id": "com.google.android.apps.nexuslauncher:id/search_container_hotseat",
+        "text": "Google search",
+        "rationale": "Tapping the Google search bar to initiate a search.",
+        "timestamp": "2025-08-11T17:47:04.232747"
+      },
+      {
+        "step_id": 2,
+        "action": "tap",
+        "resource_id": "com.google.android.apps.nexuslauncher:id/input",
+        "text": "Search web and more",
+        "rationale": "Tapping the input field to enter the search term.",
+        "timestamp": "2025-08-11T17:47:04.232747"
+      },
+      {
+        "step_id": 3,
+        "action": "type",
+        "resource_id": "com.google.android.apps.nexuslauncher:id/input",
+        "text": "the capital of Mexico",
+        "input_text": "the capital of Mexico",
+        "rationale": "Typing the search term 'the capital of Mexico' into the search input field.",
+        "timestamp": "2025-08-11T17:47:04.232747"
+      },
+      {
+        "step_id": 4,
+        "action": "press_key",
+        "key": "enter",
+        "rationale": "Submitting the search for 'the capital of Mexico'.",
+        "timestamp": "2025-08-11T17:47:04.232747"
+      },
+      {
+        "step_id": 5,
+        "action": "completion",
+        "text": "Task completed",
+        "rationale": "Search completed successfully.",
+        "timestamp": "2025-08-11T17:47:04.232747"
+      }
+    ],
+    "step_accuracy_scores": [
+      0.8,
+      0.8,
+      1.0,
+      0.4,
+      0.8
+    ],
+    "overall_accuracy": 0.76,
+    "evaluation_timestamp": "2025-08-11T17:47:04.236302"
+  },
+  "planned_steps": [
+    {
+      "step_id": 1,
+      "action": "tap",
+      "resource_id": "com.google.android.apps.nexuslauncher:id/search_container_hotseat",
+      "text": "Google search",
+      "rationale": "To initiate a search for the capital of Mexico.",
+      "timestamp": "2025-08-11T17:47:04.232747"
+    },
+    {
+      "step_id": 2,
+      "action": "tap",
+      "resource_id": "com.google.android.apps.nexuslauncher:id/input",
+      "text": "Search web and more",
+      "rationale": "To access the input field for typing the search query.",
+      "timestamp": "2025-08-11T17:47:04.232747"
+    },
+    {
+      "step_id": 3,
+      "action": "type",
+      "resource_id": "com.google.android.apps.nexuslauncher:id/input",
+      "text": "the capital of Mexico",
+      "input_text": "the capital of Mexico",
+      "rationale": "To enter the search query 'the capital of Mexico' into the input field.",
+      "timestamp": "2025-08-11T17:47:04.232747"
+    },
+    {
+      "step_id": 4,
+      "action": "press_key",
+      "key": "enter",
+      "rationale": "To submit the search query for 'the capital of Mexico' on Google.",
+      "timestamp": "2025-08-11T17:47:04.232747"
+    },
+    {
+      "step_id": 5,
+      "action": "completion",
+      "text": "Task completed",
+      "rationale": "Search for the capital of Mexico completed successfully.",
+      "timestamp": "2025-08-11T17:47:04.232747"
+    }
+  ]
+}

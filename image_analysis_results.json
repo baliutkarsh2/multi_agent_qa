@@ -1,0 +1,16 @@
+[
+  {
+    "image_name": "image.png",
+    "image_path": "test_aitw_videos\\image.png",
+    "task_description": "\"Google the capital of Mexico\"",
+    "analysis_timestamp": "2025-08-11T13:17:03.774088",
+    "status": "success"
+  },
+  {
+    "image_name": "image2.png",
+    "image_path": "test_aitw_videos\\image2.png",
+    "task_description": "\"Open a new Chrome private window\"",
+    "analysis_timestamp": "2025-08-11T13:17:07.746218",
+    "status": "success"
+  }
+]
