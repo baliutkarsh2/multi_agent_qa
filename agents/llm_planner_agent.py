@@ -7,9 +7,11 @@ from core.registry import register_agent
 from core.memory import EpisodicMemory
 from core.episode import EpisodeContext
 from core.llm_client import LLMClient
+from core.logging_config import get_logger
+from core.run_logger import get_run_logger, log_run_event
 from env.android_interface import UIState
 import os
-from core.logging_config import get_logger
+import time
 
 log = get_logger("LLM-PLANNER")
 
@@ -22,9 +24,11 @@ class LLMPlannerAgent:
         self.toggle_episodes = set()  # Track episodes that have performed a toggle
         self.toggle_executed = False  # Track if toggle has been executed in current episode
         subscribe("exec-report", self.on_exec_report)
+        subscribe("verification-complete", self.on_verification_complete)
+        subscribe("critical-failure", self.on_critical_failure)
 
     def on_exec_report(self, msg: Message):
-        # After a step is executed, plan the next one.
+        # After a step is executed, wait for verification before planning next action
         episode_id = msg.payload["episode_id"]
         ui_state = UIState(msg.payload["ui_snapshot"])
         
@@ -44,7 +48,97 @@ class LLMPlannerAgent:
             publish(Message("LLM-PLANNER", "episode_done", {"reason": "Maximum steps reached."}))
             return
         
-        self.act(user_goal, ui_state, EpisodeContext(id=episode_id, user_goal=user_goal))
+        # Store the execution report and wait for verification
+        # The planner will be triggered again after verification completes
+        log.info(f"Execution completed for episode {episode_id}, waiting for verification before planning next action")
+        
+        # Store execution result in history
+        execution_result = {
+            "type": "execution",
+            "step": msg.payload["report"],
+            "ui_state": ui_state.xml,
+            "timestamp": time.time()
+        }
+        history.append(execution_result)
+        self.memory.store(episode_id, history, tags=["history"])
+
+    def on_verification_complete(self, msg: Message):
+        """Handle verification completion and plan next action."""
+        episode_id = msg.payload["episode_id"]
+        verification_result = msg.payload["verification_result"]
+        
+        history = self.memory.retrieve(episode_id) or []
+        if not history:
+            log.error(f"History not found for episode {episode_id} during verification completion.")
+            return
+            
+        user_goal = history[0].get("user_goal", "No goal found in history.")
+        
+        # Check if we've reached the maximum number of steps
+        if len(history) >= self.max_steps:
+            log.info(f"Maximum steps ({self.max_steps}) reached for episode {episode_id}. Ending episode.")
+            publish(Message("LLM-PLANNER", "episode_done", {"reason": "Maximum steps reached."}))
+            return
+        
+        # Store verification result
+        verification_record = {
+            "type": "verification",
+            "result": verification_result,
+            "timestamp": time.time()
+        }
+        history.append(verification_record)
+        self.memory.store(episode_id, history, tags=["history"])
+        
+        # Check verification success
+        if not verification_result.get("verified", False):
+            log.warning(f"Verification failed for episode {episode_id}: {verification_result.get('reason', 'Unknown error')}")
+            # Could implement retry logic here
+        
+        # Now plan the next action based on verified state
+        try:
+            current_ui_state = UIState(verification_result.get("ui_xml", ""))
+        except Exception as e:
+            log.warning(f"Failed to create UI state from verification result: {e}")
+            # Get fresh UI state
+            try:
+                from env.android_interface import AndroidDevice
+                device = AndroidDevice()  # This should be injected properly
+                current_ui_state = UIState(device.get_ui_tree().xml)
+            except Exception as e2:
+                log.error(f"Failed to get current UI state: {e2}")
+                publish(Message("LLM-PLANNER", "episode_done", {"reason": "Failed to get UI state for planning."}))
+                return
+        
+        self.act(user_goal, current_ui_state, EpisodeContext(id=episode_id, user_goal=user_goal))
+
+    def on_critical_failure(self, msg: Message):
+        """Handle critical failures that require manual intervention."""
+        episode_id = msg.payload["episode_id"]
+        step = msg.payload["step"]
+        failure_result = msg.payload["failure_result"]
+        
+        log.error(f"Critical failure detected for episode {episode_id}: {step['action']} - {failure_result.get('reason', 'Unknown error')}")
+        
+        # Store critical failure in history
+        history = self.memory.retrieve(episode_id) or []
+        critical_failure_record = {
+            "type": "critical_failure",
+            "step": step,
+            "failure_result": failure_result,
+            "timestamp": time.time(),
+            "requires_manual_intervention": True
+        }
+        history.append(critical_failure_record)
+        self.memory.store(episode_id, history, tags=["history"])
+        
+        # End episode due to critical failure
+        publish(Message("LLM-PLANNER", "episode_done", {
+            "reason": f"Critical failure: {failure_result.get('reason', 'Unknown error')}",
+            "failure_type": "verification_failure",
+            "requires_manual_intervention": True
+        }))
+        
+        log.info(f"Episode {episode_id} terminated due to critical failure")
 
     def act(self, user_goal: str, ui_state: UIState, episode: EpisodeContext):
         history = self.memory.retrieve(episode.id) or []
@@ -54,12 +148,23 @@ class LLMPlannerAgent:
             # Reset toggle execution flag for new episode
             self.toggle_executed = False
             
+            # Log episode start to run logger if available
+            run_logger = get_run_logger()
+            if run_logger:
+                run_logger.log_episode_start(episode.id, user_goal)
+            
         log.info(f"Planning next action for goal: {user_goal} (step {len(history)})")
         
         action = self.llm.request_next_action(user_goal, ui_state.xml, history)
         
         if not action or "action" not in action:
             log.warning("LLM did not return a valid action. Ending episode.")
+            
+            # Log episode end to run logger if available
+            run_logger = get_run_logger()
+            if run_logger:
+                run_logger.log_episode_end(episode.id, "failed", "No further actions from LLM")
+            
             publish(Message("LLM-PLANNER", "episode_done", {"reason": "No further actions from LLM."}))
             return
             
@@ -67,6 +172,12 @@ class LLMPlannerAgent:
         if self._is_toggle_action(action, user_goal):
             if self.toggle_executed:
                 log.info("Toggle already executed in this episode, ending immediately.")
+                
+                # Log episode end to run logger if available
+                run_logger = get_run_logger()
+                if run_logger:
+                    run_logger.log_episode_end(episode.id, "completed", "Toggle already executed - stopping")
+                
                 publish(Message("LLM-PLANNER", "episode_done", {"reason": "Toggle already executed - stopping."}))
                 return
                 
@@ -78,12 +189,24 @@ class LLMPlannerAgent:
             self.memory.store(episode.id, history, tags=["history"])
             publish(Message("LLM-PLANNER", "plan", {"step": action, "episode_id": episode.id}))
             # End the episode immediately after planning the toggle action
+            
+            # Log episode end to run logger if available
+            run_logger = get_run_logger()
+            if run_logger:
+                run_logger.log_episode_end(episode.id, "completed", "Toggle action executed. Goal Reached")
+            
             publish(Message("LLM-PLANNER", "episode_done", {"reason": "Toggle action executed. Goal Reached."}))
             return
             
         # Check if the action indicates completion
         if self._is_completion_action(action, user_goal):
             log.info("Completion action detected. Ending episode.")
+            
+            # Log episode end to run logger if available
+            run_logger = get_run_logger()
+            if run_logger:
+                run_logger.log_episode_end(episode.id, "completed", "Goal completed")
+            
             publish(Message("LLM-PLANNER", "episode_done", {"reason": "Goal completed."}))
             return
             

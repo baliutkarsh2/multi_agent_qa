@@ -7,6 +7,7 @@ from core.registry import register_agent, get_agent
 from core.memory import EpisodicMemory
 from core.llm_client import LLMClient
 from core.logging_config import get_logger
+from core.run_logger import get_run_logger, log_run_event
 from env.android_interface import AndroidDevice, UIState
 from env.gesture_utils import tap_at, scroll
 from env.ui_utils import get_nth_by_res_id, get_nth_by_text, find_all_by_res_id_and_text, select_nth
@@ -155,13 +156,19 @@ class LLMExecutorAgent:
         history.append(result)
         self.memory.store(eid, history, tags=["history"])
         
-        # Publish the report, which the planner will listen for
+        # Get UI snapshot for logging and reporting
         try:
             ui_snapshot = self.device.get_ui_tree().xml
         except Exception as e:
             log.warning(f"Failed to get UI snapshot: {e}")
             ui_snapshot = ""
         
+        # Log step execution to run logger if available
+        run_logger = get_run_logger()
+        if run_logger:
+            run_logger.log_step_execution(eid, step, result, ui_snapshot)
+        
+        # Publish the report, which the planner will listen for
         publish(Message(
             "LLM-EXECUTOR",
             "exec-report",
