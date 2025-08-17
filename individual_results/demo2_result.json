@@ -1,150 +1,78 @@
 {
   "image_name": "demo2.png",
   "image_path": "test_aitw_videos\\demo2.png",
-  "task_description": "Search for the best pizza restaurants on Google Maps.",
-  "analysis_timestamp": "2025-08-11T19:17:04.604988",
+  "task_description": "Search for the best pizza restaurants on Maps",
+  "analysis_timestamp": "2025-08-17T02:38:39.044402",
   "analysis_status": "success",
   "execution_status": "success",
-  "execution_timestamp": "2025-08-11T19:19:01.795152",
+  "execution_timestamp": "2025-08-17T02:40:38.603159",
   "episode_id": "task_demo2",
   "evaluation": {
-    "accuracy_score": 0.76,
+    "accuracy_score": 0.8,
     "robustness_score": 0.8999999999999999,
-    "generalization_score": 0.6692800000000001,
+    "generalization_score": 0.3,
     "action_similarity": 1.0,
     "task_completion_rate": 1.0,
     "average_duration": 45.2,
     "planned_steps": [
       {
         "step_id": 1,
-        "action": "tap",
-        "resource_id": "com.google.android.apps.nexuslauncher:id/search_container_hotseat",
-        "text": "Google search",
-        "rationale": "To initiate a search for \"the best pizza restaurants\".",
-        "timestamp": "2025-08-11T19:19:01.792758"
+        "action": "analyze",
+        "resource_id": "ui_analysis",
+        "text": "Analyze UI",
+        "rationale": "To understand the current UI state and determine next action.",
+        "timestamp": "2025-08-17T02:40:38.601609"
       },
       {
         "step_id": 2,
-        "action": "tap",
-        "resource_id": "com.google.android.apps.nexuslauncher:id/input",
-        "text": "Search web and more",
-        "rationale": "To access the input field for typing the search query \"the best pizza restaurants\".",
-        "timestamp": "2025-08-11T19:19:01.792758"
-      },
-      {
-        "step_id": 3,
-        "action": "type",
-        "resource_id": "com.google.android.apps.nexuslauncher:id/input",
-        "text": "the best pizza restaurants",
-        "input_text": "the best pizza restaurants",
-        "rationale": "To enter the search query \"the best pizza restaurants\" into the input field.",
-        "timestamp": "2025-08-11T19:19:01.792758"
-      },
-      {
-        "step_id": 4,
-        "action": "press_key",
-        "key": "enter",
-        "rationale": "To submit the search query \"the best pizza restaurants\" on Google.",
-        "timestamp": "2025-08-11T19:19:01.792758"
-      },
-      {
-        "step_id": 5,
-        "action": "completion",
-        "text": "Task completed",
-        "rationale": "Search for \"the best pizza restaurants\" completed successfully.",
-        "timestamp": "2025-08-11T19:19:01.792758"
+        "action": "execute",
+        "resource_id": "task_execution",
+        "text": "Execute task",
+        "rationale": "To perform the required task based on analysis.",
+        "timestamp": "2025-08-17T02:40:38.601609"
       }
     ],
     "executed_steps": [
       {
         "step_id": 1,
-        "action": "tap",
-        "resource_id": "com.google.android.apps.nexuslauncher:id/search_container_hotseat",
-        "text": "Google search",
-        "rationale": "Tapping the Google search bar to initiate a search for \"the best pizza restaurants\".",
-        "timestamp": "2025-08-11T19:19:01.792758"
+        "action": "analyze",
+        "resource_id": "ui_analysis",
+        "text": "Analyze UI",
+        "rationale": "Analyzing the current UI state to understand the task.",
+        "timestamp": "2025-08-17T02:40:38.601609"
       },
       {
         "step_id": 2,
-        "action": "tap",
-        "resource_id": "com.google.android.apps.nexuslauncher:id/input",
-        "text": "Search web and more",
-        "rationale": "Tapping the input field to enter the search term \"the best pizza restaurants\".",
-        "timestamp": "2025-08-11T19:19:01.792758"
-      },
-      {
-        "step_id": 3,
-        "action": "type",
-        "resource_id": "com.google.android.apps.nexuslauncher:id/input",
-        "text": "the best pizza restaurants",
-        "input_text": "the best pizza restaurants",
-        "rationale": "Typing the search term \"the best pizza restaurants\" into the search input field.",
-        "timestamp": "2025-08-11T19:19:01.792758"
-      },
-      {
-        "step_id": 4,
-        "action": "press_key",
-        "key": "enter",
-        "rationale": "Submitting the search for \"the best pizza restaurants\".",
-        "timestamp": "2025-08-11T19:19:01.792758"
-      },
-      {
-        "step_id": 5,
-        "action": "completion",
-        "text": "Task completed",
-        "rationale": "Search for \"the best pizza restaurants\" completed successfully.",
-        "timestamp": "2025-08-11T19:19:01.792758"
+        "action": "execute",
+        "resource_id": "task_execution",
+        "text": "Execute task",
+        "rationale": "Executing the required task based on analysis.",
+        "timestamp": "2025-08-17T02:40:38.601609"
       }
     ],
     "step_accuracy_scores": [
       0.8,
-      0.8,
-      1.0,
-      0.4,
       0.8
     ],
-    "overall_accuracy": 0.76,
-    "evaluation_timestamp": "2025-08-11T19:19:01.795152"
+    "overall_accuracy": 0.8,
+    "evaluation_timestamp": "2025-08-17T02:40:38.601609"
   },
   "planned_steps": [
     {
       "step_id": 1,
-      "action": "tap",
-      "resource_id": "com.google.android.apps.nexuslauncher:id/search_container_hotseat",
-      "text": "Google search",
-      "rationale": "To initiate a search for \"the best pizza restaurants\".",
-      "timestamp": "2025-08-11T19:19:01.792758"
+      "action": "analyze",
+      "resource_id": "ui_analysis",
+      "text": "Analyze UI",
+      "rationale": "To understand the current UI state and determine next action.",
+      "timestamp": "2025-08-17T02:40:38.601609"
     },
     {
       "step_id": 2,
-      "action": "tap",
-      "resource_id": "com.google.android.apps.nexuslauncher:id/input",
-      "text": "Search web and more",
-      "rationale": "To access the input field for typing the search query \"the best pizza restaurants\".",
-      "timestamp": "2025-08-11T19:19:01.792758"
-    },
-    {
-      "step_id": 3,
-      "action": "type",
-      "resource_id": "com.google.android.apps.nexuslauncher:id/input",
-      "text": "the best pizza restaurants",
-      "input_text": "the best pizza restaurants",
-      "rationale": "To enter the search query \"the best pizza restaurants\" into the input field.",
-      "timestamp": "2025-08-11T19:19:01.792758"
-    },
-    {
-      "step_id": 4,
-      "action": "press_key",
-      "key": "enter",
-      "rationale": "To submit the search query \"the best pizza restaurants\" on Google.",
-      "timestamp": "2025-08-11T19:19:01.792758"
-    },
-    {
-      "step_id": 5,
-      "action": "completion",
-      "text": "Task completed",
-      "rationale": "Search for \"the best pizza restaurants\" completed successfully.",
-      "timestamp": "2025-08-11T19:19:01.792758"
+      "action": "execute",
+      "resource_id": "task_execution",
+      "text": "Execute task",
+      "rationale": "To perform the required task based on analysis.",
+      "timestamp": "2025-08-17T02:40:38.601609"
     }
   ]
 }
