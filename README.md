@@ -9,6 +9,10 @@
 
 A sophisticated framework that leverages Large Language Models (LLMs) to orchestrate multiple AI agents for automated Android application testing, UI interaction, and quality assurance. This system implements a hierarchical planning architecture with specialized agents for planning, execution, verification, and supervision.
 
+**🎯 Focused & Streamlined**: This project has been cleaned up to focus on two core functionalities:
+1. **Multi-Agent Android Automation** - Execute natural language goals on Android devices
+2. **Image-Based Task Analysis** - Analyze screenshots and execute identified tasks
+
 ## 📋 Table of Contents
 
 - [🎯 Project Overview](#-project-overview)
@@ -99,6 +103,15 @@ This project embodies several key principles:
 ### System Overview
 
 <img width="1728" height="903" alt="image" src="https://github.com/user-attachments/assets/6202d252-b5ec-4f14-9ece-84367800d6fa" />
+
+### Core Components
+
+The system consists of four specialized AI agents working together:
+
+1. **🤔 Planner Agent** - Converts user goals into executable action sequences
+2. **⚡ Executor Agent** - Performs UI actions on Android devices  
+3. **✅ Verifier Agent** - Validates action outcomes and ensures task completion
+4. **🎯 Supervisor Agent** - Orchestrates agents and maintains system metrics
 
 ### Agent Responsibilities
 
@@ -270,22 +283,21 @@ multi_agent_qa/
 │   ├── logging_config.py       # Logging configuration
 │   ├── memory.py               # Memory system implementation
 │   ├── message_bus.py          # Inter-agent communication
-│   └── registry.py             # Agent registration system
+│   ├── registry.py             # Agent registration system
+│   ├── run_logger.py           # Run logging system
+│   └── run_logger_integration.py # Run logger integration
 ├── 📁 env/                      # Environment Interfaces
 │   ├── android_interface.py    # Android device abstraction
 │   ├── gesture_utils.py        # Gesture execution utilities
-│   ├── ui_utils.py             # UI element parsing and selection
-│   └── vision_utils.py         # Computer vision utilities
+│   └── ui_utils.py             # UI element parsing and selection
 ├── 📁 evaluation/               # Evaluation and Metrics
 │   ├── evaluator.py            # Episode evaluation logic
 │   └── metrics.py              # Performance metrics calculation
 ├── 📁 runners/                  # Application Runners
-│   ├── aitw_runner.py          # Android in the Wild evaluation
-│   └── run_example.py          # Basic example runner
-├── 📁 configs/                  # Configuration Files
-│   └── default.yaml            # Default system configuration
-├── 📁 docs/                     # Documentation
-│   └── architecture.svg        # System architecture diagram
+│   └── run_example.py          # Main execution runner
+├── 📁 test_aitw_videos/        # Test images for image pipeline
+│   ├── demo1.png               # Sample test image
+│   └── ...                     # Additional test images
 ├── 📁 logs/                     # Logs and Screenshots (auto-created)
 ├── 📁 memory_store/            # Memory Storage (auto-created)
 ├── 📄 .env                      # Environment variables (user-created)
@@ -295,24 +307,15 @@ multi_agent_qa/
 ├── 📄 setup.py                 # Automated setup script
 ├── 📄 init_dirs.py             # Directory initialization
 ├── 📄 check_env.py             # Environment verification
-└── 📄 env_example.txt          # Environment template
+├── 📄 env_example.txt          # Environment template
+└── 📄 run_individual_image_pipeline.py # Image analysis pipeline
 ```
 
 ## 🔧 Configuration
 
 ### Configuration Files
 
-#### **Default Configuration** (`configs/default.yaml`)
-```yaml
-# Default configuration used across modules
-agent:
-  model: "gpt-4o-mini"          # LLM model for agents
-  temperature: 0.2              # Creativity vs consistency
-android:
-  emulator_serial: null         # Device serial (auto-detected)
-log:
-  level: "INFO"                 # Logging verbosity
-```
+The system uses environment variables for configuration. No additional configuration files are required.
 
 #### **Environment Configuration** (`.env`)
 ```bash
@@ -393,41 +396,77 @@ The system supports the following action types:
 
 ## 💻 Usage Examples
 
-### Basic Usage
+### **Primary Commands**
 
-#### **Simple Goal Execution**
+The system supports two main execution modes:
+
+#### **1. Multi-Agent Android Automation**
+Execute natural language goals on Android devices using the multi-agent system:
+
 ```bash
 python -m runners.run_example --goal "Enable Wi-Fi in Android settings" --serial emulator-5554
 ```
 
-#### **Custom Goal with Specific Device**
-```bash
-python -m runners.run_example --goal "Open Chrome and scroll through articles" --serial device_serial
-```
+**What this does:**
+- Analyzes your natural language goal
+- Plans the required UI actions
+- Executes the actions on the Android device
+- Verifies each step was successful
+- Provides detailed execution logs
 
-### Advanced Usage
-
-#### **Custom Configuration**
-```python
-from core.config import OPENAI_API_KEY
-from agents.llm_planner_agent import LLMPlannerAgent
-from env.android_interface import AndroidDevice
-
-# Initialize components
-device = AndroidDevice("emulator-5554")
-planner = LLMPlannerAgent()
-
-# Execute custom goal
-goal = "Enable Wi-Fi in Android settings"
-# ... implementation
-```
-
-### Example Goals
+#### **2. Image-Based Task Analysis**
+Analyze Android screenshots and execute the identified tasks:
 
 ```bash
+python run_individual_image_pipeline.py --image demo1.png
+```
+
+**What this does:**
+- Uses OpenAI Vision API to analyze the screenshot
+- Extracts the task the user was trying to complete
+- Executes the task using the multi-agent system
+- Provides performance evaluation and metrics
+
+### **Example Goals for Multi-Agent System**
+
+```bash
+# Settings and Configuration
 --goal "Enable Wi-Fi in Android settings"
+--goal "Turn on Bluetooth in device settings"
+--goal "Change screen brightness to maximum"
+
+# App Navigation
 --goal "Open Chrome and scroll through articles"
---goal "Open Gmail and open my emails"
+--goal "Launch Gmail and open my inbox"
+--goal "Open Camera app and take a photo"
+
+# System Operations
+--goal "Go to home screen and open app drawer"
+--goal "Check battery percentage in quick settings"
+--goal "Enable airplane mode"
+```
+
+### **Advanced Usage**
+
+#### **Custom Device Configuration**
+```bash
+# Use specific device serial
+python -m runners.run_example --goal "Your goal here" --serial device_serial_number
+
+# Use default device (emulator-5554)
+python -m runners.run_example --goal "Your goal here"
+```
+
+#### **Image Pipeline Options**
+```bash
+# Process all available test images
+python run_individual_image_pipeline.py --all
+
+# List available test images
+python run_individual_image_pipeline.py --list
+
+# Process specific image with custom options
+python run_individual_image_pipeline.py --image demo1.png --no-save
 ```
 
 ## 🔍 API Reference
@@ -439,6 +478,7 @@ goal = "Enable Wi-Fi in Android settings"
 class LLMClient:
     def __init__(self, model: str = "gpt-4o-mini")
     def request_next_action(self, goal: str, ui_xml: str, history: list[Dict[str,Any]]) -> Dict[str,Any]
+    def verify_action(self, action_description: str, ui_xml: str) -> Dict[str, Any]
 ```
 
 #### **AndroidDevice** (`env/android_interface.py`)
@@ -448,7 +488,9 @@ class AndroidDevice:
     def get_ui_tree(self) -> UIState
     def launch_app(self, pkg: str) -> None
     def press_key(self, key: str) -> None
+    def type_text(self, text: str) -> None
     def screenshot(self, label: str) -> str
+    def scroll(self, direction: str) -> None
 ```
 
 #### **EpisodicMemory** (`core/memory.py`)
@@ -457,6 +499,14 @@ class EpisodicMemory:
     def store(self, key: str, value: Any, tags: List[str] | None = None) -> None
     def retrieve(self, key: str) -> Any | None
     def retrieve_similar(self, query: str, k: int = 3) -> List[Any]
+```
+
+#### **RunLogger** (`core/run_logger.py`)
+```python
+class RunLogger:
+    def __init__(self, run_id: str, user_goal: str, logs_dir: str = "logs")
+    def log_event(self, event_type: str, agent: str, data: Dict[str, Any]) -> None
+    def log_step_execution(self, episode_id: str, step: Dict, result: Dict, ui_snapshot: str) -> None
 ```
 
 ### Agent Registration
@@ -526,6 +576,24 @@ subscribe("custom_channel", message_handler)
 - **Definition**: Accuracy of action verification
 - **Calculation**: `correct_verifications / total_verifications`
 - **Target**: >95% verification accuracy
+
+### **Image Pipeline Evaluation**
+
+The image analysis pipeline provides additional evaluation metrics:
+
+#### **Task Extraction Accuracy**
+- **Definition**: How well the system identifies tasks from screenshots
+- **Method**: OpenAI Vision API analysis with human validation
+
+#### **Execution Performance**
+- **Definition**: How well the multi-agent system executes identified tasks
+- **Metrics**: Step-by-step accuracy, robustness, and generalization scores
+
+#### **Performance Grading**
+- **🟢 EXCELLENT (≥0.8)**: System performing exceptionally well
+- **🟡 GOOD (0.6-0.8)**: System performing well with consistent results
+- **🟠 FAIR (0.4-0.6)**: System shows mixed performance
+- **🔴 POOR (<0.4)**: System requires significant improvements
 
 ### Debugging and Logging
 
@@ -648,10 +716,10 @@ This project builds upon significant research in:
 
 ### Key Influences
 
-- **[Android World](https://github.com/google-research/android_world)**: Google Research's Android automation framework
 - **[AndroidEnv](https://github.com/google-deepmind/android_env)**: DeepMind's Android environment for reinforcement learning
 - **[Hierarchical Planning in AI](https://arxiv.org/abs/2501.11739)**: Research on hierarchical task planning
 - **[Agent Memory Architectures](https://blog.langchain.com/memory-for-agents/)**: Memory systems for AI agents
+- **[OpenAI Vision API](https://platform.openai.com/docs/guides/vision)**: Computer vision capabilities for task analysis
 
 ### Open Source Dependencies
 
