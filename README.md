@@ -690,19 +690,6 @@ When reporting issues, please include:
 - **Logs**: Relevant log output
 - **Screenshots**: If applicable
 
-## 📄 License
-
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
-
-### License Summary
-
-- ✅ **Commercial Use**: Allowed
-- ✅ **Modification**: Allowed
-- ✅ **Distribution**: Allowed
-- ✅ **Private Use**: Allowed
-- ❌ **Liability**: Limited
-- ❌ **Warranty**: None
-
 ## 🙏 Acknowledgments
 
 ### Research Foundations
@@ -713,19 +700,6 @@ This project builds upon significant research in:
 - **Hierarchical Planning**: Complex task decomposition strategies
 - **LLM Integration**: Large language model applications in automation
 - **Android Automation**: Mobile device testing and interaction
-
-### Key Influences
-
-- **[AndroidEnv](https://github.com/google-deepmind/android_env)**: DeepMind's Android environment for reinforcement learning
-- **[Hierarchical Planning in AI](https://arxiv.org/abs/2501.11739)**: Research on hierarchical task planning
-- **[Agent Memory Architectures](https://blog.langchain.com/memory-for-agents/)**: Memory systems for AI agents
-- **[OpenAI Vision API](https://platform.openai.com/docs/guides/vision)**: Computer vision capabilities for task analysis
-
-### Open Source Dependencies
-
-- **[OpenAI Python](https://github.com/openai/openai-python)**: Official OpenAI API client
-- **[Pydantic](https://github.com/pydantic/pydantic)**: Data validation and settings management
-- **[Pytest](https://github.com/pytest-dev/pytest)**: Testing framework
 ---
 
 ## 📞 Support & Contact
